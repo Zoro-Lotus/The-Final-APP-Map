@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Mapbox Globe with Country Names</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Breathing&display=swap" rel="stylesheet">
+    <style>
+        #map {
+            width: 100%;
+            height: 400px; /* Adjust the height as needed */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2VuaTI0MiIsImEiOiJjbTMzNGZldnAxZzRwMmxzN2FlZDRnZzk0In0.a6QDVIBRSXYP2lHIt6aulw';
+
+        // Initialize the map with a colorful style that includes country names
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/satellite-streets-v11', // Colorful style with country names
+            center: [-1.4701, 53.3811], // Centered on Sheffield
+            zoom: 2, // Broader zoom to show multiple countries
+            projection: 'globe' // Enable globe projection
+        });
+
+        // List of locations with coordinates, names, and URLs
+        const locations = [
+            { name: 'Nottingham', coordinates: [-1.1492, 52.9548], url: 'https://www.pottershousenottingham.co.uk/' },
+            { name: 'Norwich', coordinates: [1.2994, 52.6309], url: 'https://www.potters.house/' },
+            { name: 'Croydon', coordinates: [-0.1004, 51.3762], url: 'https://www.pottershousecroydon.com/' },
+            { name: 'Derby', coordinates: [-1.4750, 52.9225], url: 'http://www.pottershousederby.co.uk/' },
+            { name: 'Erdington', coordinates: [-1.8388, 52.5301], url: 'https://www.pherdington.co.uk/' },
+            { name: 'Enfield', coordinates: [-0.0815, 51.6521], url: 'https://www.phenfield.com/' },
+            { name: 'Bournemouth', coordinates: [-1.8784, 50.7200], url: 'https://www.phbournemouth.com/' },
+            { name: 'Southend', coordinates: [0.7118, 51.5459], url: 'https://www.pottershousesouthend.com/' },
+            { name: 'Wembley', coordinates: [-0.2795, 51.5530], url: 'https://www.phwembley.com/' },
+            { name: 'Wimbledon', coordinates: [-0.2087, 51.4215], url: 'https://www.pottershousewimbledon.com/' },
+            { name: 'Tottenham', coordinates: [-0.0723, 51.5975], url: 'https://www.phtottenham.com/' },
+            { name: 'Hackney', coordinates: [-0.0587, 51.5465], url: 'https://www.hackneyph.church/' },
+            { name: 'Stratford', coordinates: [-0.0035, 51.5401], url: 'https://www.phstratford.co.uk/' },
+            { name: 'Northampton', coordinates: [-0.9027, 52.2405], url: 'https://www.phnorthampton.co.uk/' },
+            { name: 'Hull', coordinates: [-0.3364, 53.7676], url: 'https://www.churchinhull.co.uk/' },
+            { name: 'Sutton', coordinates: [-0.1910, 51.3612], url: 'https://www.phsutton.com/' },
+            { name: 'Belfast', coordinates: [-5.9301, 54.5973], url: 'http://www.phbelfast.com/' },
+            { name: 'Glasgow', coordinates: [-4.2514, 55.8642], url: 'https://www.phglasgow.co.uk/' },
+            { name: 'Kilburn', coordinates: [-0.2037, 51.5438], url: 'https://www.phkilburn.co.uk/' },
+            { name: 'Offenbach', coordinates: [8.7665, 50.1109], url: 'https://pottershausoffenbach.eu/ueberuns/' },
+            { name: 'Guildford', coordinates: [-0.5704, 51.2362], url: 'https://www.phgcc.co.uk/' },
+            { name: 'Brighton', coordinates: [-0.1364, 50.8225], url: 'https://www.phbrighton.com/' },
+            { name: 'West Bromwich', coordinates: [-1.9924, 52.5192], url: 'https://phwestbrom.co.uk/' },
+            { name: 'Lewisham', coordinates: [-0.0145, 51.4626], url: 'https://pottershouselewisham.co.uk/' },
+            { name: 'Bromley', coordinates: [0.0187, 51.4060], url: 'https://www.phbromley.com/' },
+            { name: 'Hemel Hempstead', coordinates: [-0.4693, 51.7537], url: 'https://www.pottershousehemel.co.uk/' },
+            { name: 'Stoke on Trent', coordinates: [-2.1794, 53.0027], url: 'https://www.potterschurch.co.uk/' },
+            { name: 'Swansea', coordinates: [-3.9436, 51.6214], url: 'https://www.pottershouseswansea.co.uk/' },
+            { name: 'Ipswich', coordinates: [1.1557, 52.0567], url: 'https://phipswich.co.uk/' },
+            { name: 'Sydenham', coordinates: [-0.0458, 51.4260], url: 'https://www.sydenhamcc.com/' },
+            { name: 'Leeds', coordinates: [-1.5491, 53.8008], url: 'https://www.phleedscity.church/' },
+            { name: 'Swindon', coordinates: [-1.7812, 51.5558], url: 'https://cfmchurches.com/listing/potters-house-swindon/' },
+            { name: 'Horsham', coordinates: [-0.3274, 51.0626], url: 'https://www.phchorsham.co.uk/' },
+            { name: 'Streatham', coordinates: [-0.1290, 51.4250], url: 'https://www.churchinstreatham.com/' },
+            { name: 'Ikeja, Nigeria', coordinates: [3.3426, 6.6059], url: 'https://pottershousecfc.com.ng/' },
+            { name: 'Gravesend', coordinates: [0.3680, 51.4419], url: 'https://www.phgravesend.com/' },
+            { name: 'Cheshunt', coordinates: [-0.0319, 51.7025], url: 'https://phcheshunt.co.uk/' },
+            { name: 'Rugby', coordinates: [-1.2612, 52.3709], url: 'https://www.phrugby.co.uk/' },
+            { name: 'France', coordinates: [2.2137, 46.2276], url: 'https://www.pottershouse.fr/' },
+            { name: 'Ealing', coordinates: [-0.3018, 51.5136], url: 'https://phcealing.wixsite.com/phcealing' },
+            { name: 'Huddersfield', coordinates: [-1.7842, 53.6458], url: 'http://www.phhudds.co.uk/' },
+            { name: 'Grays', coordinates: [0.3257, 51.4751], url: 'https://www.phgrays.co.uk/' },
+            { name: 'Portsmouth', coordinates: [-1.0873, 50.8198], url: 'https://www.phportsmouth.co.uk/' },
+            { name: 'St Andrew, Jamaica', coordinates: [-76.7926, 18.0323], url: 'https://www.phstandrew.com/' },
+            { name: 'Merton', coordinates: [-0.1905, 51.4155], url: 'https://www.phcmerton.co.uk/' },
+            { name: 'Worcester', coordinates: [-2.2235, 52.1920], url: 'https://phcw.co.uk/' },
+            { name: 'Mainz, Germany', coordinates: [8.2473, 49.9929], url: 'https://cfmchurches.com/listing/potters-house-mainz/' },
+            { name: 'Edgware', coordinates: [-0.2801, 51.6133], url: 'https://phedgware.co.uk/' },
+            { name: 'Wakefield', coordinates: [-1.4977, 53.6833], url: 'https://www.phwakefield.co.uk/' },
+            { name: 'Woking', coordinates: [-0.5589, 51.3190], url: 'https://www.pottershousewoking.co.uk/' },
+            { name: 'Doncaster', coordinates: [-1.1258, 53.5228], url: 'https://www.phdoncaster.uk/' },
+            { name: 'Chelmsford', coordinates: [0.4685, 51.7356], url: 'https://www.phchelmsford.co.uk/' },
+            { name: 'Milton Keynes', coordinates: [-0.7558, 52.0406], url: 'https://phmk.co.uk/' },
+            { name: 'Wednesbury', coordinates: [-2.0234, 52.5530], url: 'https://www.phwcc.co.uk/' },
+            { name: 'Stevenage', coordinates: [-0.2038, 51.9025], url: 'https://www.phstevenage.com/' },
+            { name: 'Lincoln', coordinates: [-0.5371, 53.2307], url: 'https://www.phlincoln.co.uk/' },
+            { name: 'Bracknell', coordinates: [-0.7493, 51.4135], url: 'https://www.phcbracknell.co.uk/' },
+            { name: 'Cardiff', coordinates: [-3.1791, 51.4816], url: 'https://www.pottershousecardiff.co.uk/' },
+            { name: 'Leicester', coordinates: [-1.1330, 52.6369], url: 'https://phleicester.co.uk/' },
+            { name: 'Stockport', coordinates: [-2.1570, 53.4098], url: 'https://thepottershousestockport.com/' },
+            { name: 'Newcastle', coordinates: [-1.6174, 54.9783], url: 'https://www.phnewcastle.com/' },
+            { name: 'Dublin', coordinates: [-6.2603, 53.3498], url: 'https://pottershouse.ie/' },
+            { name: 'Wiesbaden, Germany', coordinates: [8.2452, 50.0826], url: 'https://cfmchurches.com/listing/potters-house-wiesbaden/' },
+            { name: 'Bolton', coordinates: [-2.4299, 53.5785], url: 'https://phbolton.co.uk/' },
+            { name: 'Dudley', coordinates: [-2.0822, 52.5128], url: 'https://www.phcdudley.co.uk/home' },
+            { name: 'Harlow', coordinates: [0.1022, 51.7729], url: 'https://phcharlow.co.uk/' },
+            { name: 'Bounds Green', coordinates: [-0.1241, 51.6076], url: 'https://www.pottershousebg.com/' },
+            { name: 'Luton', coordinates: [-0.4175, 51.8787], url: 'https://www.pottershouseluton.co.uk/' },
+            { name: 'Peterborough', coordinates: [-0.2437, 52.5695], url: 'https://phcpeterborough.co.uk/' },
+            { name: 'Walsall', coordinates: [-1.9823, 52.5862], url: 'https://phwalsall.co.uk/' },
+            { name: 'Shepherds Bush', coordinates: [-0.2283, 51.5053], url: 'https://www.phshepherdsbush.co.uk/' },
+            { name: 'Borehamwood', coordinates: [-0.2709, 51.6544], url: 'https://www.phborehamwood.com/' }
+        ];
+
+        // Function to add markers with popups
+        locations.forEach(location => {
+            const marker = new mapboxgl.Marker()
+                .setLngLat(location.coordinates)
+                .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add a popup
+                    .setHTML(`<a href="${location.url}" target="_blank" style="font-family: 'Arial', cursive; font-size: 16px;">${location.name}</a>`)) // Popup text
+                .addTo(map);
+        });
+
+        // Optional: Add atmospheric effects and rotation
+        map.on('style.load', () => {
+            map.setFog({ color: 'rgba(186, 210, 235, 0.5)' }); // Adds a subtle blue fog for a more realistic atmosphere
+        });
+    </script>
+</body>
+
+</html>
