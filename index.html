@@ -110,7 +110,7 @@
             const marker = new mapboxgl.Marker()
                 .setLngLat(location.coordinates)
                 .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add a popup
-                    .setHTML(`<a href="${location.url}" target="_blank" style="font-family: 'Montserrat', Monospace; font-size: 18px;">${location.name}</a>`)) // Popup text
+                    .setHTML(`<a href="${location.url}" target="_blank" style="font-family: 'Montserrat', Sans-serif; font-size: 18px;">${location.name}</a>`)) // Popup text
                 .addTo(map);
         });
 
